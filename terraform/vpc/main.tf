@@ -16,6 +16,7 @@ module "vpc" {
   map_public_ip_on_launch            = true
   create_database_subnet_group       = false
   create_database_subnet_route_table = true
+  manage_default_security_group      = false
 
   public_subnet_names = [
     "${local.prefix}-public-subnet-1a",
