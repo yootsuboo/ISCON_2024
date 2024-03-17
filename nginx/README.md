@@ -37,3 +37,4 @@ sudo nano /etc/nginx/nginx.conf
     systemctl status nginx
     ```
 
+![nginx_response_time drawio](https://github.com/yootsuboo/ISCON_2024/assets/68502098/2d7e039d-79c0-4d4e-9e59-b62ed662c545)
