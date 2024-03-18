@@ -14,13 +14,18 @@ sudo nano /etc/nginx/nginx.conf
                                     '"method":"$request_method",'
                                     '"uri":"$request_uri",'
                                     '"status":"$status",'
-                                    '"body_bytes":"$body_bytes_sent,'
+                                    '"body_bytes":"$body_bytes_sent",'
                                     '"referer":"$http_referer",'
                                     '"ua":"$http_user_agent",'
                                     '"request_time":"$request_time",'
                                     '"response_time":"$upstream_response_time"}';
 
         access_log /var/log/nginx/access.log json;
+```
+
+- 設定が正しいことを確認 ※エラーとならないこと
+```
+sudo nginx -t
 ```
 
 - nginxプロセスを再起動する
@@ -38,3 +43,57 @@ sudo nano /etc/nginx/nginx.conf
     ```
 
 ![nginx_response_time drawio](https://github.com/yootsuboo/ISCON_2024/assets/68502098/2d7e039d-79c0-4d4e-9e59-b62ed662c545)
+
+## ログ基盤の構築
+
+### install alp
+- 以下のgithubから`linux_amd64`のバイナリファイルをダウンロード
+    - https://github.com/tkuchiki/alp/releases
+- ダウンロードしたファイルをplayerインスタンスに転送
+    ```
+    scp -i ~/.ssh/<key pair>.pem <file name> ubuntu@<public ipv4>:/home/ubuntu
+    ```
+- playerインスタンスでインストール
+    - tarファイルの場合は解凍する
+    ```
+    tar -xvf <file name>.tar
+    ```
+    - インスールの実施
+    ```
+    sudo install <file name> /usr/local/bin/alp
+    ```
+### install fluentd
+
+### Before Installation
+
+https://docs.fluentd.org/installation/before-install
+
+## HTTPベンチマーカーのインストール
+- Apache Bench のインストール
+```
+apt update
+```
+```
+apt install apache2-utils
+```
+
+## mysql スロークエリログの有効化
+- mysql設定ファイルの変更
+```
+sudo vim /etc/mysql/mysql.conf.d/mysqld.cnf
+```
+- 以下のコメントアウトの解除と設定変更
+```
+slow_query_log = 1
+slow_query_log_file = /var/log/mysql/mysql-slow.log
+long_query_tim = 0
+```
+- mysqlの再起動
+```
+sudo systemctl restart mysql
+```
+- mysqlへの接続 ※password は空
+```
+mysql -u root -t isuconp -p
+```
+
