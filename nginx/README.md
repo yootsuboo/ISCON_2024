@@ -73,14 +73,6 @@ apt update
 apt install apache2-utils
 ```
 
-### install k6
-- abコマンドより高機能な負荷試験ツールとして使用する
-- [インストール方法](https://k6.io/docs/get-started/installation/)
-- バージョン確認
-```
-k6 version
-```
-
 ## mysql スロークエリログの有効化
 - mysql設定ファイルの変更
 ```
@@ -104,5 +96,16 @@ mysql -u root -t isuconp -p
 - スロークエリの解析
 ```
 mysqldumpslow /var/log/mysql/mysql-slow.log
+```
+
+- sqlにインデックスを貼る
+
+- アプリケーションの並列実行数変更
+```
+vim /home/isucon/private_isu/webapp/ruby/unicorn_config.rb
+```
+- CPUの倍の数に変更
+```
+worker_processes 4
 ```
 
