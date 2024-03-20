@@ -62,11 +62,7 @@ sudo nginx -t
     ```
     sudo install <file name> /usr/local/bin/alp
     ```
-### install fluentd
 
-### Before Installation
-
-https://docs.fluentd.org/installation/before-install
 
 ## HTTPベンチマーカーのインストール
 - Apache Bench のインストール
@@ -75,6 +71,14 @@ apt update
 ```
 ```
 apt install apache2-utils
+```
+
+### install k6
+- abコマンドより高機能な負荷試験ツールとして使用する
+- [インストール方法](https://k6.io/docs/get-started/installation/)
+- バージョン確認
+```
+k6 version
 ```
 
 ## mysql スロークエリログの有効化
@@ -95,5 +99,10 @@ sudo systemctl restart mysql
 - mysqlへの接続 ※password は空
 ```
 mysql -u root -t isuconp -p
+```
+
+- スロークエリの解析
+```
+mysqldumpslow /var/log/mysql/mysql-slow.log
 ```
 
