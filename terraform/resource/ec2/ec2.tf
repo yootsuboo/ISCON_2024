@@ -9,7 +9,7 @@ module "ec2_instance_player" {
   name = "${local.prefix}-player"
 
   instance_type               = "t3.large"
-  ami                         = "ami-0d92a4724cae6f07b"
+  ami                         = "ami-04db10797361332a8"
   key_name                    = "iscon_2024_key"
   monitoring                  = false
   vpc_security_group_ids      = [aws_security_group.sg_player.id]
