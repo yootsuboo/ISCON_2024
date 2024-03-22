@@ -1,0 +1,3 @@
+[submodule "query-digester"]
+	path = query-digester
+	url = git@github.com:kazeburo/query-digester.git
