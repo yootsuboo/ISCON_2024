@@ -1,0 +1,6 @@
+[submodule "query-digester"]
+	path = query-digester
+	url = git@github.com:kazeburo/query-digester.git
+[submodule "private-isu"]
+	path = private-isu
+	url = git@github.com:catatsuy/private-isu.git

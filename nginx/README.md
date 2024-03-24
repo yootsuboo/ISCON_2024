@@ -73,33 +73,6 @@ apt update
 apt install apache2-utils
 ```
 
-## mysql スロークエリログの有効化
-- mysql設定ファイルの変更
-```
-sudo vim /etc/mysql/mysql.conf.d/mysqld.cnf
-```
-- 以下のコメントアウトの解除と設定変更
-```
-slow_query_log = 1
-slow_query_log_file = /var/log/mysql/mysql-slow.log
-long_query_tim = 0
-```
-- mysqlの再起動
-```
-sudo systemctl restart mysql
-```
-- mysqlへの接続 ※password は空
-```
-mysql -u root -t isuconp -p
-```
-
-- スロークエリの解析
-```
-mysqldumpslow /var/log/mysql/mysql-slow.log
-```
-
-- sqlにインデックスを貼る
-
 - アプリケーションの並列実行数変更
 ```
 vim /home/isucon/private_isu/webapp/ruby/unicorn_config.rb
