@@ -19,3 +19,7 @@ cd ISCON_2024
 git sparse-checkout set Ansible
 ```
 
+## ansible playbook の実行
+```title:$
+ansible-playbook -i inventory/local.yml main.yml
+```
