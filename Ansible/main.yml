@@ -1,10 +1,13 @@
-- name: git-prompt
-    copy: 
-      src: ./files/git-prompt.sh 
-      dest: /etc/skel/.git-prompt.sh 
-      owner: root 
-      group: root 
-      mode: 0644
-      force: yes
-
+- hosts: all
+  tasks:
+    - name: add bashrc
+      ansible.builtin.blockinfile:
+        path: /root/.bashrc
+        block: |
+          source /root/git-prompt.sh
+          source /root/git-completion.bash
+          GIT_PS1_SHOWDIRTYSTATE=true
+          export PS1='\[\033[32m\]\u@\w\[\033[36m\]$(__git_ps1)\[\033[00m\]\n\$ ''
+        insertafter: EOF
+        state: present
 
