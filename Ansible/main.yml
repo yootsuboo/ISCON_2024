@@ -1,0 +1,5 @@
+- hosts: all
+  gather_facts: no
+  tasks:
+    - ansible.builtin.command:
+        cmd: echo $TERM
