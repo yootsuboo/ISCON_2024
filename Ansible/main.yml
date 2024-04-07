@@ -1,2 +1,10 @@
 - name: git-prompt
-    copy: src=git-prompt.sh dest=/etc/skel/.git-prompt.sh owner=root group=root mode=0644
+    copy: 
+      src: ./files/git-prompt.sh 
+      dest: /etc/skel/.git-prompt.sh 
+      owner: root 
+      group: root 
+      mode: 0644
+      force: yes
+
+
