@@ -9,12 +9,8 @@
       with_file:
         - files/bashrc_prompt.txt
 
-    - name: コマンド実行
-      ansible.builtin.command: 
-        cmd: exec bash
-      register: execution_result
-
-    - name: コマンド実行結果を確認
-      ansible.builtin.debug:
-        var: execution_result
+    - name: vimrcファイルをコピー
+      ansible.builtin.copy:
+        src: /files/vimrc
+        dest: /home/isucon/.vimrc
 
