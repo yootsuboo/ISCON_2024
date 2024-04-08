@@ -1,10 +1,15 @@
 ## Ansibleのインストール
+**isuconユーザーで実行**
+
 - ubuntuへのインストール
-```title:#
-apt install ansible
+```title:$
+sudo apt update
+```
+```title:$
+sudo apt install ansible
 ```
 - インストールの確認
-```title:#
+```title:$
 ansible --version
 ```
 
@@ -20,6 +25,9 @@ git sparse-checkout set Ansible
 ```
 
 ## ansible playbook の実行
+```title:$
+cd Ansible
+```
 ```title:$
 ansible-playbook -i inventory/local.yml main.yml
 ```
