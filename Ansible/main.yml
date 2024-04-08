@@ -3,11 +3,9 @@
     - name: add bashrc
       ansible.builtin.blockinfile:
         path: /home/isucon/.bashrc
-        block: |
-          "source /home/isucon/ISCON_2024/Ansible/files/git-prompt.sh
-          source /home/isucon/ISCON_2024/Ansible/files/git-completion.bash
-          GIT_PS1_SHOWDIRTYSTATE=true
-          export PS1='\[\033[32m\]\u@\w\[\033[36m\]$(__git_ps1)\[\033[00m\]\n\$ '"
+        block: "{{item}}"
         insertafter: EOF
         state: present
+      with_file:
+        - files/bashrc_prompt.txt
 
