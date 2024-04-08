@@ -2,7 +2,7 @@
   tasks:
     - name: add bashrc
       ansible.builtin.blockinfile:
-        path: /root/.bashrc
+        path: /home/isucon/.bashrc
         block: |
           "source /home/isucon/ISCON_2024/Ansible/files/git-prompt.sh
           source /home/isucon/ISCON_2024/Ansible/files/git-completion.bash
