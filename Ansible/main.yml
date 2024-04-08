@@ -11,6 +11,6 @@
 
     - name: vimrcファイルをコピー
       ansible.builtin.copy:
-        src: /files/vimrc
+        src: ./files/vimrc
         dest: /home/isucon/.vimrc
 
