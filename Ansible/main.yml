@@ -9,6 +9,11 @@
       with_file:
         - files/bashrc_prompt.txt
 
+    - name: bash_profileファイルをコピー
+      ansible.builtin.copy:
+        src: ./files/bash_profile
+        dest: /home/isucon/.bash_profile
+
     - name: vimrcファイルをコピー
       ansible.builtin.copy:
         src: ./files/vimrc
