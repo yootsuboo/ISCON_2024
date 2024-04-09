@@ -30,18 +30,14 @@
         dest: /home/isucon/.vimrc
 
     - name: tarファイルの解凍
-      ansible.builtin.shell:
-        cmd: tar -xvf ./files/alp_linux_amd64.tar
-      changed_when: no
-      register: execution_result
-
-    - name: コマンド実行結果の確認
-      ansible.builtin.debug:
-        var: execution_result
+      ansible.builtin.unarchive:
+        src: ./files/alp_linux_amd64.tar
+        dest: /tmp
+        remote_src: yes
 
     - name: alpのインストール
       ansible.builtin.shell:
-        cmd: install ./files/alp_linux_amd64 /usr/local/bin/alp
+        cmd: install /tmp/alp_linux_amd64 /usr/local/bin/alp
       changed_when: no
       register: execution_result
 
