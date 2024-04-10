@@ -29,15 +29,20 @@
         src: ./files/vimrc
         dest: /home/isucon/.vimrc
 
-    - name: tarファイルの解凍
-      ansible.builtin.unarchive:
-        src: ./files/alp_linux_amd64.tar
+    - name: alpのダウンロード
+      get_url:
+        url: https://github.com/tkuchiki/alp/releases/download/v1.0.20/alp_linux_amd64.tar.gz
+        dest: /tmp
+
+    - name: ファイルの解凍
+      unarchive:
+        src: /tmp/alp_linux_amd64.tar.gz
         dest: /tmp
         remote_src: yes
 
     - name: alpのインストール
       ansible.builtin.shell:
-        cmd: install /tmp/alp_linux_amd64 /usr/local/bin/alp
+        cmd: install /tmp/alp /usr/local/bin/alp
       changed_when: no
       register: execution_result
 
