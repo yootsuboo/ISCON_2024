@@ -42,7 +42,7 @@
 
     - name: alpのインストール
       ansible.builtin.shell:
-        cmd: install /tmp/alp /usr/local/bin/alp
+        cmd: sudo install /tmp/alp /usr/local/bin/alp
       changed_when: no
       register: execution_result
 
