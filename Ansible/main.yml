@@ -67,3 +67,7 @@
       ansible.builtin.debug:
         var: execution_result
 
+    - name: abコマンドインストール
+      ansible.builtin.shell:
+        cmd: sudo apt update && sudo apt install apache2-utils -y
+
