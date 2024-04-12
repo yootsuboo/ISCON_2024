@@ -101,5 +101,5 @@ fi
 source /root/git-prompt.sh
 source /root/git-completion.bash
 GIT_PS1_SHOWDIRTYSTATE=true
-export PS1='\[\033[32m\]\u@\w\[\033[36m\]$(__git_ps1)\[\033[00m\]\n\$ '
+export PS1='\[\033[32m\]\u@\w\[\033[36m\]$(__git_ps1)\[\033[00m\]\$ '
 
