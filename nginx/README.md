@@ -4,23 +4,27 @@
 
 - ./nginx.conf のログフォーマットを対象のサーバに追加する
 ```bash
-sudo nano /etc/nginx/nginx.conf
+sudo vim /etc/nginx/nginx.conf
 ```
 
 ```nginx.conf
-        log_format json escape=json '{"time":"$time_iso8601",'
-                                    '"host":"$remote_addr",'
-                                    '"port":"$remote_port",'
-                                    '"method":"$request_method",'
-                                    '"uri":"$request_uri",'
-                                    '"status":"$status",'
-                                    '"body_bytes":"$body_bytes_sent",'
-                                    '"referer":"$http_referer",'
-                                    '"ua":"$http_user_agent",'
-                                    '"request_time":"$request_time",'
-                                    '"response_time":"$upstream_response_time"}';
+        log_format ltsv "time:$time_local"
+                        "\thost:$remote_addr"
+                        "\tforwardedfor:$http_x_forwarded_for"
+                        "\treq:$request"
+                        "\tstatus:$status"
+                        "\tmethod:$request_method"
+                        "\turi:$request_uri"
+                        "\tsize:$body_bytes_sent"
+                        "\treferer:$http_referer"
+                        "\tua:$http_user_agent"
+                        "\treqtime:$request_time"
+                        "\tcache:$upstream_http_x_cache"
+                        "\truntime:$upstream_http_x_runtime"
+                        "\tapptime:$upstream_response_time"
+                        "\tvhost:$host";
 
-        access_log /var/log/nginx/access.log json;
+        access_log /var/log/nginx/access.log ltsv;
 ```
 
 - 設定が正しいことを確認 ※エラーとならないこと
@@ -47,30 +51,33 @@ sudo nginx -t
 ## ログ基盤の構築
 
 ### install alp
-- 以下のgithubから`linux_amd64`のバイナリファイルをダウンロード
-    - https://github.com/tkuchiki/alp/releases
-- ダウンロードしたファイルをplayerインスタンスに転送
+- 以下のgithubから`linux_amd64`向けファイルをダウンロード
     ```
-    scp -i ~/.ssh/<key pair>.pem <file name> ubuntu@<public ipv4>:/home/ubuntu
+    curl -OL https://github.com/tkuchiki/alp/releases/download/v1.0.20/alp_linux_amd64.tar.gz -o /tmp/alp_linux_amd64.tar.gz
     ```
 - playerインスタンスでインストール
     - tarファイルの場合は解凍する
     ```
-    tar -xvf <file name>.tar
+    tar -zxvf /tmp/alp_linux_amd64.tar.gz
     ```
     - インスールの実施
     ```
-    sudo install <file name> /usr/local/bin/alp
+    sudo install /tmp/alp /usr/local/bin/alp
     ```
 
 
-## HTTPベンチマーカーのインストール
+## abコマンドのインストール (HTTPベンチマーカー)
+
 - Apache Bench のインストール
 ```
-apt update
+sudo apt update
 ```
 ```
-apt install apache2-utils
+sudo apt install apache2-utils
+```
+- コマンド例 (URLに向けて1並列で合計10回のリクエスト)
+```
+ab -c 1 -n 10 http://localhost/
 ```
 
 - アプリケーションの並列実行数変更
