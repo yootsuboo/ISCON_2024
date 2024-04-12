@@ -28,6 +28,12 @@ git sparse-checkout set Ansible
 ```title:$
 cd Ansible
 ```
+- 確認コマンド
 ```title:$
-ansible-playbook -i inventory/local.yml main.yml
+ansible-playbook -i inventory/local.yml main.yml -v --check
+```
+
+- 実行コマンド
+```title:$
+ansible-playbook -i inventory/local.yml main.yml -v
 ```
