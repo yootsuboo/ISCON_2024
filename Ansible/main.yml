@@ -61,13 +61,24 @@
       ansible.builtin.shell:
         cmd: sudo install /tmp/alp /usr/local/bin/alp
       changed_when: no
-      register: execution_result
 
-    - name: コマンド実行結果の確認
-      ansible.builtin.debug:
-        var: execution_result
+   - name: バージョン確認
+     ansible.builtin.shell:
+       cmd: alp -v
 
     - name: abコマンドインストール
       ansible.builtin.shell:
         cmd: sudo apt update && sudo apt install apache2-utils -y
+
+    - name: インストール確認
+      ansible.builtin.shell:
+        cmd: ab
+
+    - name: pt-query-digestインストール
+      ansibule.builtin.shell:
+        cmd: sudo apt update && sudo apt install percona-toolkig
+
+    - name: バージョン確認
+      ansible.builtin.shell:
+        cmd: pt-query-digest --version
 
