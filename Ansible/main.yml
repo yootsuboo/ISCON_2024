@@ -55,7 +55,7 @@
         dest: /tmp
         remote_src: yes
       when:
-        ansible_architecture == "arm64"
+        ansible_architecture == "aarch64"
 
     - name: alpのインストール
       ansible.builtin.shell:
