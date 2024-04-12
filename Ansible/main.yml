@@ -78,7 +78,7 @@
         var: execution_result
 
     - name: pt-query-digestインストール
-      ansibule.builtin.shell:
+      ansible.builtin.shell:
         cmd: sudo apt update && sudo apt install percona-toolkit -y
       changed_when: no
       register: execution_result
