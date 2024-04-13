@@ -52,31 +52,32 @@ alp:
 
 .PHONY: access-db
 access-db:
-	mysql -h $(ISUCONP_DB_HOST) -P $(ISUCONP_DB_PORT) -u $(ISUCONP_DB_USER) -p$(ISUCONP_DB_PASSWORD) $(ISUCONP_DB_NAME)
+	sudo mysql -h $(ISUCONP_DB_HOST) -P $(ISUCONP_DB_PORT) -u $(ISUCONP_DB_USER) -p$(ISUCONP_DB_PASSWORD) $(ISUCONP_DB_NAME)
 
 
 # バックアップ構成要素
 
 .PHONY: backup-setup
 backup-setup:
-	sudo mkdir /work
+	if [ ! -d ${HOME}/backup ]; then
+		sudo mkdir ${HOME}/backup
+	fi
 
 .PHONY: backup-etc
 backup-etc:
-	sudo tar czvfp /work/initial_etc.tar.gz /etc
+	sudo tar czvfp ${HOME}/backup/initial_etc.tar.gz /etc
 
 .PHONY: backup-home
 backup-home:
-	sudo tar czvfp /work/initial_home.tar.gz /home
+	sudo tar czvfp ${HOME}/backup/initial_home.tar.gz /home
 
 .PHONY: backup-usr
 backup-usr:
-	sudo tar czvfp /work/initial_usr.tar.gz /usr
-
+	sudo tar czvfp ${HOME}/backup/initial_usr.tar.gz /usr
 
 .PHONY: dump-mysql
 dump-mysql:
-	mysqldump -h $(ISUCONP_DB_HOST) -P $(ISUCONP_DB_PORT) -u $(ISUCONP_DB_USER) -p$(ISUCONP_DB_PASSWORD) $(ISUCONP_DB_NAME) > /work/initial_mysql.dump
+	sudo mysqldump --single-transaction -h $(ISUCONP_DB_HOST) -P $(ISUCONP_DB_PORT) -u $(ISUCONP_DB_USER) -p$(ISUCONP_DB_PASSWORD) $(ISUCONP_DB_NAME) > ${HOME}/backup/initial_mysql.dump
 
 
 # メインコマンド構成要素
