@@ -63,15 +63,15 @@ backup-setup:
 
 .PHONY: backup-etc
 backup-etc:
-	sudo tar czvfp ${HOME}/backup/initial_etc.tar.gz /etc
+	sudo tar czvfp ${HOME}/backup/initial_etc.tar.gz /etc/
 
 .PHONY: backup-home
 backup-home:
-	sudo tar --exclude /home/backup/ czvfp ${HOME}/backup/initial_home.tar.gz /home
+	sudo tar --exclude "isucon/backup*" --exclude "isucon/ISCON_2024*" -czvfp ${HOME}/backup/initial_home.tar.gz /home/
 
 .PHONY: backup-usr
 backup-usr:
-	sudo tar czvfp ${HOME}/backup/initial_usr.tar.gz /usr
+	sudo tar czvfp ${HOME}/backup/initial_usr.tar.gz /usr/
 
 .PHONY: dump-mysql
 dump-mysql:
