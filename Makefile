@@ -1,4 +1,4 @@
-include env.sh
+include ~/env.sh
 # 変数定義 --------------------------------
 
 # 問題により変更になる定義
@@ -25,6 +25,11 @@ backup: backup-etc backup-home backup-usr dump-mysql
 # ツールインストール, gitまわりのセットアップ
 .PHONY: setup
 setup: install-tools git-setup
+
+.PHONY: exec-ansible
+exec-ansible: 
+	cd ~/ISUCON_2024
+	ansible-playbook -i inventory/local.yml main.yml -v
 
 # 設定ファイルの取得、git管理下にする
 .PHONY: get-conf
