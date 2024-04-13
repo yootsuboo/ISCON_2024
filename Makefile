@@ -17,7 +17,7 @@ DB_SLOW_LOG:=/var/log/mysql/mariadb-slow.log
 # バックアップの取得
 
 .PHONY: backup
-backup: backup-etc backup-home backup-usr dump-mysql
+backup: backup-setup backup-etc backup-home backup-usr dump-mysql
 
 
 # メインで使用するコマンド ----------------
@@ -51,33 +51,31 @@ alp:
 
 .PHONY: access-db
 access-db:
-	mysql -h $(ISUCONP_DB_HOST) -P $(ISUCONP_DB_PORT) -u $(ISUCONP_DB_USER) -p$(ISUCONP_DB_PASSWORD) $(MYSQL_DBNAME)
+	mysql -h $(ISUCONP_DB_HOST) -P $(ISUCONP_DB_PORT) -u $(ISUCONP_DB_USER) -p$(ISUCONP_DB_PASSWORD) $(ISUCONP_DB_NAME)
 
 
 # バックアップ構成要素
 
+.PHONY: backup-setup
+backup-setup:
+	mkdir /work
+
 .PHONY: backup-etc
 backup-etc:
-	sudo su -
-	mkdir /work
-	tar czvfp /work/initial_etc.tar.gz /etc
+	sudo tar czvfp /work/initial_etc.tar.gz /etc
 
 .PHONY: backup-home
 backup-home:
-	sudo su -
-	mkdir /work
-	tar czvfp /work/initial_home.tar.gz /home
+	sudo tar czvfp /work/initial_home.tar.gz /home
 
 .PHONY: backup-usr
 backup-usr:
-	sudo su -
-	mkdir /work
-	tar czvfp /work/initial_usr.tar.gz /usr
+	sudo tar czvfp /work/initial_usr.tar.gz /usr
 
 
 .PHONY: dump-mysql
 dump-mysql:
-	mysqldump -h $(MYSQL_HOST) -u $(MYSQL_USER) -p$(MYSQL_PASS) $(MYSQL_DBNAME) > /work/initial_mysql.dump
+	mysqldump -h $(ISUCONP_DB_HOST) -P $(ISUCONP_DB_PORT) -u $(ISUCONP_DB_USER) -p$(ISUCONP_DB_PASSWORD) $(ISUCONP_DB_NAME) > /work/initial_mysql.dump
 
 
 # メインコマンド構成要素
