@@ -1,6 +1,16 @@
 ## チェックリスト
 
 ### 初期状態のバックアップ取得
+##### Makefileで実行
+- Makefileの取得
+```
+curl https://raw.githubusercontent.com/yootsuboo/ISCON_2024/main/Makefile -o Makefile
+```
+- Makefileの実行
+```
+make setup
+```
+
 - rootユーザーで実行
 ```title:$
 sudo su -
@@ -10,11 +20,7 @@ sudo su -
 mkdir /work
 ```
 
-- [ ] ~~tarで全部丸めてバックアップを取得する~~
-```title:#
-nohup tar czvfp /work/initial.tar.gz --exclude /var --exclude /proc --exclude /root --exclude /lib / &
-```
-- 上記うまく以下ないので
+- [ ] tarで丸めてバックアップを取得する~~
 ```
 tar czvfp /work/initial_etc.tar.gz /etc
 ```
@@ -26,20 +32,15 @@ tar czvfp /work/initial_usr.tar.gz /usr
 ```
 
 
-- ~~tarファイルの中身確認~~
-```tilte:#
-tar -ztfv /work/initial.tar.gz
-```
-
 - [ ] DBダンプファイルを作成する
 - mysqlの場合
-<!-- mysqldump -h 127.0.0.1 -u isuconp isuconp -pisuconp > /work/initial_mysql.dump -->
+<!-- nohup mysqldump -h 127.0.0.1 -u isuconp -pisuconp isuconp > /work/initial_mysql.dump & -->
 ```title:#
-mysqldump -h 127.0.0.1 -u <user name> <db name> -p > /work/initial_mysql.dump
+mysqldump -h 127.0.0.1 -u <user name>  -p<password> <db name> > /work/initial_mysql.dump
 ```
 - postgresqlの場合
 ```tilte:#
-nohup pg_dumpall -h 127.0.0.1 -p 5432 <db name> > /work/initial_postgresql.dump &
+pg_dumpall -h 127.0.0.1 -p 5432 <db name> > /work/initial_postgresql.dump
 ```
 
 ##### もしもの時の復旧

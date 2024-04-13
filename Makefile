@@ -1,4 +1,4 @@
-include ~/env.sh
+include env.sh
 # 変数定義 --------------------------------
 
 # 問題により変更になる定義
@@ -51,7 +51,7 @@ alp:
 
 .PHONY: access-db
 access-db:
-	mysql -h $(MYSQL_HOST) -P $(MYSQL_PORT) -u $(MYSQL_USER) -p$(MYSQL_PASS) $(MYSQL_DBNAME)
+	mysql -h $(ISUCONP_DB_HOST) -P $(ISUCONP_DB_PORT) -u $(ISUCONP_DB_USER) -p$(ISUCONP_DB_PASSWORD) $(MYSQL_DBNAME)
 
 
 # バックアップ構成要素
@@ -94,7 +94,7 @@ git-setup:
 	git config --global user.name "admin"
 	
 	# deploykeyの作成
-	ssh-keygen -t ed25519
+	sudo ssh-keygen -t ed25519
 
 .PHONY: check-server-id
 check-server-id:
