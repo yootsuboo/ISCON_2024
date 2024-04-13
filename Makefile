@@ -59,9 +59,7 @@ access-db:
 
 .PHONY: backup-setup
 backup-setup:
-	if [ ! -d ${HOME}/backup ]; then
-		sudo mkdir ${HOME}/backup
-	fi
+	sudo mkdir -p ${HOME}/backup
 
 .PHONY: backup-etc
 backup-etc:
@@ -69,7 +67,7 @@ backup-etc:
 
 .PHONY: backup-home
 backup-home:
-	sudo tar czvfp ${HOME}/backup/initial_home.tar.gz /home
+	sudo tar --exclude /home/backup/ czvfp ${HOME}/backup/initial_home.tar.gz /home
 
 .PHONY: backup-usr
 backup-usr:
