@@ -28,6 +28,7 @@ setup: install-tools git-setup
 
 .PHONY: exec-ansible
 exec-ansible: 
+	git clone https://github.com/yootsuboo/ISCON_2024.git
 	cd ~/ISUCON_2024
 	ansible-playbook -i inventory/local.yml main.yml -v
 
@@ -58,7 +59,7 @@ access-db:
 
 .PHONY: backup-setup
 backup-setup:
-	mkdir /work
+	sudo mkdir /work
 
 .PHONY: backup-etc
 backup-etc:
