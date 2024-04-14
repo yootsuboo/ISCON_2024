@@ -87,3 +87,59 @@
       ansible.builtin.debug:
         var: execution_result
 
+    - name: スロークエリログ有効化
+      become: yes
+      become_user: root
+      ansible.builtin.blockinfile:
+        path: /etc/mysql/mysql.conf.d/mysqld.cnf
+        block: |-
+          slow_query_log = 1
+          slow_query_log_file = /var/log/mysql/mysql-slow.log
+          long_query_time = 0
+        insertafter: EOF
+        state: present
+
+    - name: mysql の再起動
+      ansible.builtin.shell:
+        cmd: sudo systemctl restart mysql
+      register: execution_result
+
+    - name: コマンド実行結果の確認
+      ansible.builtin.debug:
+        var: execution_result
+
+
+    - name: nginxアクセスログフォーマット修正
+      become: yes
+      become_user: root
+      ansible.builtin.blockinfile:
+        path: /etc/nginx/nginx.conf
+        block: |-
+            {% filter indent(width=8, first=true) %}
+            log_format ltsv "time:$time_local"
+                            "\thost:$remote_addr"
+                            "\tforwardedfor:$http_x_forwarded_for"
+                            "\treq:$request"
+                            "\tstatus:$status"
+                            "\tmethod:$request_method"
+                            "\turi:$request_uri"
+                            "\tsize:$body_bytes_sent"
+                            "\treferer:$http_referer"
+                            "\tua:$http_user_agent"
+                            "\treqtime:$request_time"
+                            "\tcache:$upstream_http_x_cache"
+                            "\truntime:$upstream_http_x_runtime"
+                            "\tapptime:$upstream_response_time"
+                            "\tvhost:$host";
+            {% endfilter %}
+
+        insertbefore: "access_log /var/log/nginx/access.log"
+        state: present
+
+    - name: access_logフォーマットの指定
+      ansible.builtin.lineinfile:
+        path: /etc/nginx/nginx.conf
+        state: present
+        regexp: "access_log /var/log/nginx/access.log"
+        line: "access_log /var/log/nginx/access.log ltsv;"
+
