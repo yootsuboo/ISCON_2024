@@ -12,6 +12,7 @@ curl https://raw.githubusercontent.com/yootsuboo/ISCON_2024/main/Makefile -o Mak
 make add-keys
 ```
 - [ ] isuconユーザーでログインしMakefileの取得
+- [ ] ~/env ファイルのパラメータ確認 (変数名等の確認)
 - [ ] backupの実行
 ```
 make backup

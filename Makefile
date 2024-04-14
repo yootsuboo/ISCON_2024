@@ -59,7 +59,7 @@ alp:
 
 .PHONY: access-db
 access-db:
-	sudo mysql -h $(ISUCONP_DB_HOST) -P $(ISUCONP_DB_PORT) -u $(ISUCONP_DB_USER) -p$(ISUCONP_DB_PASSWORD) $(ISUCONP_DB_NAME)
+	sudo mysql -h $(ISUCONP_DB_HOST) -u $(ISUCONP_DB_USER) -p$(ISUCONP_DB_PASSWORD) $(ISUCONP_DB_NAME)
 
 
 # バックアップ構成要素
