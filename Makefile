@@ -1,4 +1,4 @@
-include env.sh
+include /home/isucon/env.sh
 # 変数定義 --------------------------------
 
 # 問題により変更になる定義
@@ -30,7 +30,7 @@ setup: install-tools git-setup
 add-keys:
 	sudo mkdir -p /home/isucon/.ssh
 	sudo chown isucon:isucon /home/isucon/.ssh
-	sudo cp authorized_keys /home/isucon/.ssh/
+	sudo cp ~/.ssh/authorized_keys /home/isucon/.ssh/
 	sudo chown isucon:isucon /home/isucon/.ssh/authorized_keys
 
 .PHONY: check
