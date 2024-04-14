@@ -2,10 +2,16 @@
 
 ### 初期状態のバックアップ取得
 ##### Makefileで実行
+- [ ] ubuntuユーザーでログイン
 - [ ] Makefileの取得
 ```
 curl https://raw.githubusercontent.com/yootsuboo/ISCON_2024/main/Makefile -o Makefile
 ```
+- [ ] isuconユーザーに鍵登録
+```
+make add-keys
+```
+- [ ] isuconユーザーでログインしMakefileの取得
 - [ ] backupの実行
 ```
 make backup
@@ -24,11 +30,16 @@ make exec
 ```
 
 ##### git管理
-`make setup`で作成したデプロイキーをGithubの`プライベート`リポジトリに登録
+- [ ] `make setup`で作成したデプロイキーをGithubの`プライベート`リポジトリに登録
 プライベートリポジトリのSettings -> Deploy Keysに登録
 ```
 cat .ssh/id_ed25519.pub
 ``` 
+
+- [ ] 他のユーザーをプライベートリポジトリに招待するためにパスワードを設定
+Githubのプライベートリポジトリから`Settings` -> `Collaborators`
+`Add people` からユーザー名で追加することで、対象者にメールが送付される
+
 
 
 ##### もしもの時の復旧

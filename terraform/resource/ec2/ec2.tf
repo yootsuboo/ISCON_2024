@@ -9,7 +9,7 @@ module "ec2_instance_player" {
   name = "${local.prefix}-player"
 
   instance_type               = "c7a.medium"
-  ami                         = "ami-06b15703972cc7b2f" # initial:  ami-0935f4bab7bea4382 , latest: ami-0600bc81342bb674c ansible-install: ami-06b15703972cc7b2f
+  ami                         = "ami-0937f4bab7bea4382" # initial:  ami-0935f4bab7bea4382 , latest: ami-0600bc81342bb674c
   key_name                    = "iscon_2024_key"
   monitoring                  = false
   vpc_security_group_ids      = [aws_security_group.sg_player.id]

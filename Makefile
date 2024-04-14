@@ -26,6 +26,13 @@ backup: backup-setup backup-etc backup-home backup-usr dump-mysql
 .PHONY: setup
 setup: install-tools git-setup
 
+.PHONY: add-keys
+add-keys:
+	sudo mkdir -p /home/isucon/.ssh
+	sudo chown isucon:isucon /home/isucon/.ssh
+	sudo cp authorized_keys /home/isucon/.ssh/
+	sudo chown isucon:isucon /home/isucon/.ssh/authorized_keys
+
 .PHONY: check
 check: check-ansible
 
@@ -84,7 +91,17 @@ dump-mysql:
 install-tools:
 	sudo apt update
 	sudo apt upgrade
-	sudo apt install ansible tree dstat snapd graphviz git snapd
+	sudo apt -y install software-properties-common
+	sudo apt-add-repository ppa:ansible/ansible
+	sudo apt -y install ansible tree dstat snapd graphviz git snapd
+
+.PHONY: git-setup
+git-setup:
+	git config --global user.email "test@example.com"
+	git config --global user.name "admin"
+	
+	# deploykeyの作成
+	ssh-keygen -t ed25519
 
 .PHONY: check-ansible
 check-ansible: 
@@ -95,15 +112,6 @@ check-ansible:
 exec-ansible: 
 	cd ~/ISCON_2024/Ansible && ansible-playbook -i inventory/local.yml main.yml -v
 	source ~/.bashrc
-
-.PHONY: git-setup
-git-setup:
-	git config --global user.email "test@example.com"
-	git config --global user.name "admin"
-	
-	# deploykeyの作成
-	mkdir -p ~/.ssh
-	ssh-keygen -t ed25519
 
 .PHONY: check-server-id
 check-server-id:
