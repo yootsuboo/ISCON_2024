@@ -102,7 +102,8 @@ git-setup:
 	git config --global user.name "admin"
 	
 	# deploykeyの作成
-	sudo ssh-keygen -t ed25519
+	mkdir -p ~/.ssh
+	ssh-keygen -t ed25519
 
 .PHONY: check-server-id
 check-server-id:

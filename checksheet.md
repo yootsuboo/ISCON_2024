@@ -23,6 +23,14 @@ make check
 make exec
 ```
 
+##### git管理
+`make setup`で作成したデプロイキーをGithubの`プライベート`リポジトリに登録
+プライベートリポジトリのSettings -> Deploy Keysに登録
+```
+cat .ssh/id_ed25519.pub
+``` 
+
+
 ##### もしもの時の復旧
 - tarファイルの解凍
 ```title:#
