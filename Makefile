@@ -24,8 +24,13 @@ backup: backup-setup backup-etc backup-home backup-usr dump-mysql
 
 # ツールインストール, gitまわりのセットアップ
 .PHONY: setup
-setup: install-tools exec-ansible git-setup
+setup: install-tools git-setup
 
+.PHONY: check
+check: check-ansible
+
+.PHONY: exec
+exec: exec-ansible
 
 # 設定ファイルの取得、git管理下にする
 .PHONY: get-conf
@@ -81,12 +86,15 @@ install-tools:
 	sudo apt upgrade
 	sudo apt install ansible tree dstat snapd graphviz git snapd
 
+.PHONY: check-ansible
+check-ansible: 
+	git clone https://github.com/yootsuboo/ISCON_2024.git
+	cd ~/ISCON_2024/Ansible && ansible-playbook -i inventory/local.yml main.yml -v --check
+
 .PHONY: exec-ansible
 exec-ansible: 
-	git clone https://github.com/yootsuboo/ISCON_2024.git
-	cd ~/ISCON_2024/Ansible
-	ansible-playbook -i inventory/local.yml main.yml -v
-	cd
+	cd ~/ISCON_2024/Ansible && ansible-playbook -i inventory/local.yml main.yml -v
+	source ~/.bashrc
 
 .PHONY: git-setup
 git-setup:

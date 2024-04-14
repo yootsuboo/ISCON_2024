@@ -2,45 +2,25 @@
 
 ### 初期状態のバックアップ取得
 ##### Makefileで実行
-- Makefileの取得
+- [ ] Makefileの取得
 ```
 curl https://raw.githubusercontent.com/yootsuboo/ISCON_2024/main/Makefile -o Makefile
 ```
-- Makefileの実行
+- [ ] backupの実行
 ```
 make backup
 ```
-
-- rootユーザーで実行
-```title:$
-sudo su -
+- [ ] setupの実行
 ```
-- ディレクトリの作成
-```title:#
-mkdir /work
+make setup
 ```
-
-- [ ] tarで丸めてバックアップを取得する~~
+- [ ] check-ansibleの実行
 ```
-tar czvfp /work/initial_etc.tar.gz /etc
+make check
 ```
+- [ ] checkの結果`filed`がなければ、exec-ansibleの実行
 ```
-tar czvfp /work/initial_home.tar.gz /home
-```
-```
-tar czvfp /work/initial_usr.tar.gz /usr
-```
-
-
-- [ ] DBダンプファイルを作成する
-- mysqlの場合
-<!-- nohup mysqldump -h 127.0.0.1 -u isuconp -pisuconp isuconp > /work/initial_mysql.dump & -->
-```title:#
-mysqldump -h 127.0.0.1 -u <user name>  -p<password> <db name> > /work/initial_mysql.dump
-```
-- postgresqlの場合
-```tilte:#
-pg_dumpall -h 127.0.0.1 -p 5432 <db name> > /work/initial_postgresql.dump
+make exec
 ```
 
 ##### もしもの時の復旧
