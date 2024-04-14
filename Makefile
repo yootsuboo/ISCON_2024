@@ -14,7 +14,7 @@ SYSTEMD_PATH:=/etc/systemd/system
 NGINX_LOG:=/var/log/nginx/access.log
 DB_SLOW_LOG:=/var/log/mysql/mariadb-slow.log
 
-# バックアップの取得
+# バックアップの取得 ----------------------
 
 .PHONY: backup
 backup: backup-setup backup-etc backup-home backup-usr dump-mysql
@@ -24,13 +24,8 @@ backup: backup-setup backup-etc backup-home backup-usr dump-mysql
 
 # ツールインストール, gitまわりのセットアップ
 .PHONY: setup
-setup: install-tools git-setup
+setup: install-tools exec-ansible git-setup
 
-.PHONY: exec-ansible
-exec-ansible: 
-	git clone https://github.com/yootsuboo/ISCON_2024.git
-	cd ~/ISUCON_2024
-	ansible-playbook -i inventory/local.yml main.yml -v
 
 # 設定ファイルの取得、git管理下にする
 .PHONY: get-conf
@@ -84,7 +79,14 @@ dump-mysql:
 install-tools:
 	sudo apt update
 	sudo apt upgrade
-	sudo apt install ansible tree dstat snapd graphviz git
+	sudo apt install ansible tree dstat snapd graphviz git snapd
+
+.PHONY: exec-ansible
+exec-ansible: 
+	git clone https://github.com/yootsuboo/ISCON_2024.git
+	cd ~/ISUCON_2024/Ansible
+	ansible-playbook -i inventory/local.yml main.yml -v
+	cd
 
 .PHONY: git-setup
 git-setup:
