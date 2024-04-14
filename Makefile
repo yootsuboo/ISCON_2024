@@ -84,7 +84,7 @@ install-tools:
 .PHONY: exec-ansible
 exec-ansible: 
 	git clone https://github.com/yootsuboo/ISCON_2024.git
-	cd ~/ISUCON_2024/Ansible
+	cd ~/ISCON_2024/Ansible
 	ansible-playbook -i inventory/local.yml main.yml -v
 	cd
 

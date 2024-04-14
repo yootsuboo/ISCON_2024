@@ -8,7 +8,7 @@ curl https://raw.githubusercontent.com/yootsuboo/ISCON_2024/main/Makefile -o Mak
 ```
 - Makefileの実行
 ```
-make setup
+make backup
 ```
 
 - rootユーザーで実行
