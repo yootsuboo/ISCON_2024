@@ -9,7 +9,7 @@ sudo vim /etc/mysql/mysql.conf.d/mysqld.cnf
 ```
 slow_query_log = 1
 slow_query_log_file = /var/log/mysql/mysql-slow.log
-long_query_tim = 0
+long_query_time = 0
 ```
 - mysqlの再起動
 ```
