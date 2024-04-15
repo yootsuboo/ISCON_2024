@@ -21,14 +21,6 @@ make backup
 ```
 make setup
 ```
-- [ ] check-ansibleの実行
-```
-make check
-```
-- [ ] checkの結果`filed`がなければ、exec-ansibleの実行
-```
-make exec
-```
 
 ##### git管理
 - [ ] `make setup`で作成したデプロイキーをGithubの`プライベート`リポジトリに登録
@@ -65,9 +57,22 @@ make get-conf
 ```
 すべての`git push`まで実行
 
+#### 初回ベンチマークと変更
+- [ ] ベンチマークを数回実行(点数の振れ幅を確認)
+- [ ] マニュアルの確認
 
+###### Ansibleを実行し初回設定変更
+- [ ] check-ansibleの実行
+```
+make check
+```
+- [ ] checkの結果`filed`がなければ、exec-ansibleの実行
+```
+make exec
+```
 
-
+---
+---
 
 ##### もしもの時の復旧
 - tarファイルの解凍
