@@ -3,9 +3,9 @@ include /home/isucon/env.sh
 
 # 問題により変更になる定義
 USER:=isucon
-BIN_NAME:=isucondition
-BUILD_DIR:=/home/isucon/webapp/go
-SERVICE_NAME:=$(BIN_NAME).go.service
+BIN_NAME:=isu
+BUILD_DIR:=/home/isucon/private_isu/go
+SERVICE_NAME:=$(BIN_NAME)-go.service
 
 DB_PATH:=/etc/mysql
 NGINX_PATH:=/etc/nginx
@@ -151,7 +151,7 @@ get-nginx-conf:
 .PHONY: get-service-file
 get-service-file:
 	sudo cp $(SYSTEMD_PATH)/$(SERVICE_NAME) ~/$(SERVER_ID)/etc/systemd/system/$(SERVICE_NAME)
-	sudo chwon $(USER) ~/$(SERVER_ID)/etc/systemd/system/$(SERVICE_NAME)
+	sudo chown $(USER) ~/$(SERVER_ID)/etc/systemd/system/$(SERVICE_NAME)
 
 .PHONY: get-envsh
 get-envsh:

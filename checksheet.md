@@ -56,6 +56,15 @@ git pull origin main
 ```
 git branch -m main
 ```
+サーバ毎に変更(s1, s2, s3)
+```
+make set-as-s1
+```
+```
+make get-conf
+```
+すべての`git push`まで実行
+
 
 
 
