@@ -41,7 +41,11 @@ exec: exec-ansible
 
 # 設定ファイルの取得、git管理下にする
 .PHONY: get-conf
-get-conf: check-server-id get-db-conf deploy-nginx-conf deploy-service-file deploy-envsh
+get-conf: check-server-id get-db-conf get-nginx-conf get-service-file get-envsh
+
+# リポジトリ内の設定ファイルをそれぞれ配置する
+.PHONY: deploy-conf
+deploy-conf: check-server-id deploy-db-conf deploy-nginx-conf deploy-service-file deploy-envsh
 
 # ベンチマークを走らせる直前に実施する
 .PHONY: bench
@@ -82,7 +86,7 @@ backup-usr:
 
 .PHONY: dump-mysql
 dump-mysql:
-	sudo mysqldump --single-transaction -h $(ISUCONP_DB_HOST) -P $(ISUCONP_DB_PORT) -u $(ISUCONP_DB_USER) -p$(ISUCONP_DB_PASSWORD) $(ISUCONP_DB_NAME) > ${HOME}/backup/initial_mysql.dump
+	sudo mysqldump --single-transaction -h $(ISUCONP_DB_HOST) -u $(ISUCONP_DB_USER) -p$(ISUCONP_DB_PASSWORD) $(ISUCONP_DB_NAME) > ${HOME}/backup/initial_mysql.dump
 
 
 # メインコマンド構成要素
@@ -156,6 +160,18 @@ get-envsh:
 .PHONY: deploy-db-conf
 deploy-db-conf:
 	sudo cp -R ~/$(SERVER_ID)/etc/mysql/* $(DB_PATH)
+
+.PHONY: deploy-nginx-conf
+deploy-nginx-conf:
+	sudo cp -R ~/$(SERVER_ID)/etc/nginx/* $(NGINX_PATH)
+
+.PHONY: deploy-service-file
+deploy-service-file:
+	sudo cp ~/$(SERVER_ID)/etc/systemd/system/$(SERVICE_NAME) $(SYSTEMD_PATH)/$(SERVICE_NAME)
+
+.PHONY: deploy-envsh
+deploy-envsh:
+	cp ~/$(SERVER_ID)/home/isucon/env.sh ~/env.sh
 
 
 .PHONY: build

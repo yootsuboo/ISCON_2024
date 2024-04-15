@@ -41,6 +41,23 @@ cat .ssh/id_ed25519.pub
 Githubのプライベートリポジトリから`Settings` -> `Collaborators`
 `Add people` からユーザー名で追加することで、対象者にメールが送付される
 
+- [ ] リポジトリから取得
+homeディレクトリで実施
+```
+git init
+```
+```
+git remote add origin <privateリポのSSH URL>
+```
+```
+git pull origin main
+```
+ブランチ名の変更
+```
+git branch -m main
+```
+
+
 
 
 ##### もしもの時の復旧
