@@ -140,6 +140,6 @@
       ansible.builtin.lineinfile:
         path: /etc/nginx/nginx.conf
         state: present
-        regexp: "access_log /var/log/nginx/access.log"
+        search_string: "access_log /var/log/nginx/access.log"
         line: "access_log /var/log/nginx/access.log ltsv;"
 
