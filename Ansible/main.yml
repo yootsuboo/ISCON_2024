@@ -111,7 +111,6 @@
 
     - name: nginxアクセスログフォーマット修正
       become: yes
-      become_user: root
       ansible.builtin.blockinfile:
         path: /etc/nginx/nginx.conf
         block: |-
@@ -137,6 +136,7 @@
         state: present
 
     - name: access_logフォーマットの指定
+      become: yes
       ansible.builtin.lineinfile:
         path: /etc/nginx/nginx.conf
         state: present
