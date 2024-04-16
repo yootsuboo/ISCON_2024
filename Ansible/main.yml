@@ -143,3 +143,13 @@
         search_string: "access_log /var/log/nginx/access.log"
         line: "access_log /var/log/nginx/access.log ltsv;"
 
+
+    - name: nginx の再起動
+      ansible.builtin.shell:
+        cmd: sudo systemctl restart nginx
+      register: execution_result
+
+    - name: コマンド実行結果の確認
+      ansible.builtin.debug:
+        var: execution_result
+
