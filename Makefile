@@ -12,7 +12,7 @@ NGINX_PATH:=/etc/nginx
 SYSTEMD_PATH:=/etc/systemd/system
 
 NGINX_LOG:=/var/log/nginx/access.log
-DB_SLOW_LOG:=/var/log/mysql/mariadb-slow.log
+DB_SLOW_LOG:=/var/log/mysql/mysql-slow.log
 
 # バックアップの取得 ----------------------
 
@@ -37,7 +37,7 @@ add-keys:
 check: check-ansible
 
 .PHONY: exec
-exec: exec-ansible
+exec: exec-ansible mv-logs
 
 # 設定ファイルの取得、git管理下にする
 .PHONY: get-conf
@@ -115,7 +115,7 @@ check-ansible:
 .PHONY: exec-ansible
 exec-ansible: 
 	cd ~/ISCON_2024/Ansible && ansible-playbook -i inventory/local.yml main.yml -v
-	exec bash
+	. ~/.bashrc
 
 .PHONY: check-server-id
 check-server-id:
@@ -189,7 +189,8 @@ restart:
 .PHONY: mv-logs
 mv-logs:
 	$(eval when := $(shell data "+%s"))
-	mkdir -p ~/logs/$(when)
+	mkdir -p ~/logs/nginx/$(when)
+	mkdir -p ~/logs/mysql/$(when)
 	sudo test -f $(NGINX_LOG) && \
 		sudo mv -f $(NGINX_LOG) ~/logs/nginx/$(when)/ || echo ""
 	sudo test -f $(DB_SLOW_LOG) && \
