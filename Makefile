@@ -115,7 +115,7 @@ check-ansible:
 .PHONY: exec-ansible
 exec-ansible: 
 	cd ~/ISCON_2024/Ansible && ansible-playbook -i inventory/local.yml main.yml -v
-	source ~/.bashrc
+	exec bash
 
 .PHONY: check-server-id
 check-server-id:
