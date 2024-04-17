@@ -141,7 +141,7 @@
         path: /etc/nginx/nginx.conf
         state: present
         search_string: "access_log /var/log/nginx/access.log"
-        line: "access_log /var/log/nginx/access.log ltsv;"
+        line: "        access_log /var/log/nginx/access.log ltsv;"
 
 
     - name: nginx の再起動
