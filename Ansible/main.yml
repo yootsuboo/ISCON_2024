@@ -130,8 +130,6 @@
                             "\truntime:$upstream_http_x_runtime"
                             "\tapptime:$upstream_response_time"
                             "\tvhost:$host";
-
-            access_log /var/log/nginx/access.log ltsv;
             {% endfilter %}
 
         insertbefore: "access_log /var/log/nginx/access.log"
@@ -141,8 +139,9 @@
       become: yes
       ansible.builtin.lineinfile:
         path: /etc/nginx/nginx.conf
-        state: absent
+        state: present
         search_string: "access_log /var/log/nginx/access.log"
+        line: "access_log /var/log/nginx/access.log ltsv;"
 
 
     - name: nginx の再起動
