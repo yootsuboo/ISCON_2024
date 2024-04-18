@@ -133,6 +133,7 @@
             {% endfilter %}
 
         insertbefore: "access_log /var/log/nginx/access.log"
+        marker: "        # {mark} ANSIBLE MANAGED BLOCK"
         state: present
 
     - name: access_logフォーマットの指定
