@@ -34,7 +34,7 @@ add-keys:
 	sudo chown isucon:isucon /home/isucon/.ssh/authorized_keys
 
 .PHONY: check
-check: check-ansible
+check: clone check-ansible
 
 .PHONY: exec
 exec: exec-ansible mv-logs
@@ -107,9 +107,12 @@ git-setup:
 	# deploykeyの作成
 	ssh-keygen -t ed25519
 
+.PHONY: clone
+clone:
+	git clone https://github.com/yootsuboo/ISCON_2024.git
+
 .PHONY: check-ansible
 check-ansible: 
-	git clone https://github.com/yootsuboo/ISCON_2024.git
 	cd ~/ISCON_2024/Ansible && ansible-playbook -i inventory/local.yml main.yml -v --check
 
 .PHONY: exec-ansible
