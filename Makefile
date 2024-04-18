@@ -191,7 +191,7 @@ restart:
 
 .PHONY: mv-logs
 mv-logs:
-	$(eval when := $(shell data "+%s"))
+	$(eval when := $(shell date "+%s"))
 	mkdir -p ~/logs/nginx/$(when)
 	mkdir -p ~/logs/mysql/$(when)
 	sudo test -f $(NGINX_LOG) && \
