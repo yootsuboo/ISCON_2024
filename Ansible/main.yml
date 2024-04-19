@@ -109,48 +109,48 @@
         var: execution_result
 
 
-    - name: nginxアクセスログフォーマット修正
-      become: yes
-      ansible.builtin.blockinfile:
-        path: /etc/nginx/nginx.conf
-        block: |-
-            {% filter indent(width=8, first=true) %}
-            log_format ltsv "time:$time_local"
-                            "\thost:$remote_addr"
-                            "\tforwardedfor:$http_x_forwarded_for"
-                            "\treq:$request"
-                            "\tstatus:$status"
-                            "\tmethod:$request_method"
-                            "\turi:$request_uri"
-                            "\tsize:$body_bytes_sent"
-                            "\treferer:$http_referer"
-                            "\tua:$http_user_agent"
-                            "\treqtime:$request_time"
-                            "\tcache:$upstream_http_x_cache"
-                            "\truntime:$upstream_http_x_runtime"
-                            "\tapptime:$upstream_response_time"
-                            "\tvhost:$host";
-            {% endfilter %}
+    # - name: nginxアクセスログフォーマット修正
+    #   become: yes
+    #   ansible.builtin.blockinfile:
+    #     path: /etc/nginx/nginx.conf
+    #     block: |-
+    #         {% filter indent(width=8, first=true) %}
+    #         log_format ltsv "time:$time_local"
+    #                         "\thost:$remote_addr"
+    #                         "\tforwardedfor:$http_x_forwarded_for"
+    #                         "\treq:$request"
+    #                         "\tstatus:$status"
+    #                         "\tmethod:$request_method"
+    #                         "\turi:$request_uri"
+    #                         "\tsize:$body_bytes_sent"
+    #                         "\treferer:$http_referer"
+    #                         "\tua:$http_user_agent"
+    #                         "\treqtime:$request_time"
+    #                         "\tcache:$upstream_http_x_cache"
+    #                         "\truntime:$upstream_http_x_runtime"
+    #                         "\tapptime:$upstream_response_time"
+    #                         "\tvhost:$host";
+    #         {% endfilter %}
 
-        insertbefore: "access_log /var/log/nginx/access.log"
-        marker: "        # {mark} ANSIBLE MANAGED BLOCK"
-        state: present
+    #     insertbefore: "access_log /var/log/nginx/access.log"
+    #     marker: "        # {mark} ANSIBLE MANAGED BLOCK"
+    #     state: present
 
-    - name: access_logフォーマットの指定
-      become: yes
-      ansible.builtin.lineinfile:
-        path: /etc/nginx/nginx.conf
-        state: present
-        search_string: "access_log /var/log/nginx/access.log"
-        line: "        access_log /var/log/nginx/access.log ltsv;"
+    # - name: access_logフォーマットの指定
+    #   become: yes
+    #   ansible.builtin.lineinfile:
+    #     path: /etc/nginx/nginx.conf
+    #     state: present
+    #     search_string: "access_log /var/log/nginx/access.log"
+    #     line: "        access_log /var/log/nginx/access.log ltsv;"
 
 
-    - name: nginx の再起動
-      ansible.builtin.shell:
-        cmd: sudo systemctl restart nginx
-      register: execution_result
+    # - name: nginx の再起動
+    #   ansible.builtin.shell:
+    #     cmd: sudo systemctl restart nginx
+    #   register: execution_result
 
-    - name: コマンド実行結果の確認
-      ansible.builtin.debug:
-        var: execution_result
+    # - name: コマンド実行結果の確認
+    #   ansible.builtin.debug:
+    #     var: execution_result
 
