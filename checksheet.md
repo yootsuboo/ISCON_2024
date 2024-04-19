@@ -44,7 +44,7 @@ git remote add origin <privateリポのSSH URL>
 ```
 git pull origin main
 ```
-ブランチ名の変更
+- [ ] ブランチ名の変更
 ```
 git branch -m main
 ```
@@ -55,13 +55,38 @@ make set-as-s1
 ```
 make get-conf
 ```
-すべての`git push`まで実行
+- [ ] コードをpush
+```
+git add .
+```
+```
+git commit -m "initial commit"
+```
+```
+git push origin main
+```
 
-#### 初回ベンチマークと変更
+##### 初回ベンチマークと諸々の構成確認
 - [ ] ベンチマークを数回実行(点数の振れ幅を確認)
+```
+make exec-bench
+```
 - [ ] マニュアルの確認
+- [ ] 実行中のserviceの確認
+```
+sudo systemctl list-units --type=service
+```
+- [ ] DBのテーブル構成を確認
+```
+webapp/sql/0_Schema.sql
+```
+- [ ] ソースコードの確認
+```
+webapp/go/main.go
+```
 
-###### Ansibleを実行し初回設定変更
+
+##### Ansibleを実行し初回設定変更
 - [ ] check-ansibleの実行
 ```
 make check
@@ -70,6 +95,75 @@ make check
 ```
 make exec
 ```
+- [ ] nginxアクセスログフォーマット変更
+```
+vim /etc/nginx/nginx.conf
+```
+```
+        log_format ltsv "time:$time_local"
+                        "\thost:$remote_addr"
+                        "\tforwardedfor:$http_x_forwarded_for"
+                        "\treq:$request"
+                        "\tstatus:$status"
+                        "\tmethod:$request_method"
+                        "\turi:$request_uri"
+                        "\tsize:$body_bytes_sent"
+                        "\treferer:$http_referer"
+                        "\tua:$http_user_agent"
+                        "\treqtime:$request_time"
+                        "\tcache:$upstream_http_x_cache"
+                        "\truntime:$upstream_http_x_runtime"
+                        "\tapptime:$upstream_response_time"
+                        "\tvhost:$host";
+
+        access_log /var/log/nginx/access.log ltsv;
+```
+```
+make deploy-conf
+```
+```
+sudo systemctl restart nginx
+```
+
+
+#### 計測ツール関係
+##### top または htop
+プロセスごとのcpu使用率、メモリ使用率がリアルタイムで確認できる
+```
+top
+```
+```
+htop
+```
+
+##### dstat
+サーバのリソース使用具合をリアルタイムで確認
+```
+dstat
+```
+
+##### journalctl
+systemdで動いているサービスのログを確認
+```
+make watch-service-log
+```
+
+##### alp
+アクセスログを解析するツール
+オプション指定で同種のリクエストを束ねることもできる
+[alp help](https://github.com/tkuchiki/alp)
+[alp command sample](https://zenn.dev/tkuchiki/articles/how-to-use-alp)
+```
+make alp
+```
+
+##### pt-query-digest
+DBスロークエリログの解析に使用
+```
+make slow-query
+```
+
+#### デプロイ関係
 
 ---
 ---

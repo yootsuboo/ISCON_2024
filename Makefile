@@ -33,8 +33,8 @@ add-keys:
 	sudo cp ~/.ssh/authorized_keys /home/isucon/.ssh/
 	sudo chown isucon:isucon /home/isucon/.ssh/authorized_keys
 
-.PHONY: check
-check: clone check-ansible
+.PHONY: dryrun
+dryrun: clone check-ansible
 
 .PHONY: exec
 exec: exec-ansible mv-logs
@@ -51,6 +51,10 @@ deploy-conf: check-server-id deploy-db-conf deploy-nginx-conf deploy-service-fil
 .PHONY: bench
 bench: check-server-id mv-logs build deploy-conf restart watch-service-log
 
+# ベンチマークの実行
+.PHONY: exec-bench
+exec-bench: /home/isucon/private_isu/benchmarker/bin/benchmarker -u /home/isucon/private_isu/benchmarker/userdata -t http://localhost
+
 # slow queryを確認する
 .PHONY: slow-query
 slow-query:
@@ -59,31 +63,38 @@ slow-query:
 # alpでアクセスログを確認する
 .PHONY: alp
 alp:
-	sudo alp ltsv --file=$(NGINX_LOG) #--config=/home/isucon/tool-config/alp/config.yml
+	sudo alp ltsv --file=$(NGINX_LOG) --config=/home/isucon/tool-config/alp/config.yml
 
 .PHONY: access-db
 access-db:
 	sudo mysql -h $(ISUCONP_DB_HOST) -u $(ISUCONP_DB_USER) -p$(ISUCONP_DB_PASSWORD) $(ISUCONP_DB_NAME)
 
 
+# ----------------------------------------------------------
+
 # バックアップ構成要素
 
+# バックアップ用のフォルダ作成
 .PHONY: backup-setup
 backup-setup:
 	sudo mkdir -p ${HOME}/backup
 
+# /etc配下をフルバックアップ
 .PHONY: backup-etc
 backup-etc:
 	sudo tar czvfp ${HOME}/backup/initial_etc.tar.gz /etc/
 
+# /home配下をフルバックアップ
 .PHONY: backup-home
 backup-home:
 	sudo tar --exclude "isucon/backup*" --exclude "isucon/ISCON_2024*" -czvfp ${HOME}/backup/initial_home.tar.gz /home/
 
+# /usr配下をフルバックアップ
 .PHONY: backup-usr
 backup-usr:
 	sudo tar czvfp ${HOME}/backup/initial_usr.tar.gz /usr/
 
+# DBのダンプファイルを取得
 .PHONY: dump-mysql
 dump-mysql:
 	sudo mysqldump --single-transaction -h $(ISUCONP_DB_HOST) -u $(ISUCONP_DB_USER) -p$(ISUCONP_DB_PASSWORD) $(ISUCONP_DB_NAME) > ${HOME}/backup/initial_mysql.dump
@@ -201,5 +212,5 @@ mv-logs:
 
 .PHONY: watch-service-log
 watch-service-log:
-	sudo journalctl -u $(SERVICE_NAME) -n10 -f
+	sudo journalctl -u $(SERVICE_NAME) -n10 -fx
 
