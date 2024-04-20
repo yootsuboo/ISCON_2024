@@ -53,7 +53,8 @@ bench: check-server-id mv-logs build deploy-conf restart watch-service-log
 
 # ベンチマークの実行
 .PHONY: exec-bench
-exec-bench: /home/isucon/private_isu/benchmarker/bin/benchmarker -u /home/isucon/private_isu/benchmarker/userdata -t http://localhost
+exec-bench: 
+	/home/isucon/private_isu/benchmarker/bin/benchmarker -u /home/isucon/private_isu/benchmarker/userdata -t http://localhost
 
 # slow queryを確認する
 .PHONY: slow-query
