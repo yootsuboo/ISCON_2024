@@ -69,6 +69,15 @@ slow-query:
 alp:
 	sudo alp ltsv --file=$(NGINX_LOG) --config=/home/isucon/tool-config/alp/config.yml
 
+.PHONY: pprof-record
+pprof-record:
+	go tool pprof http://localhost:6060/debug/pprof/profile
+
+.PHONY: pprof-check
+pprof-check:
+	$(eval latest := $(shell ls -rt pprof/ | tail -n 1))
+	go tool pprof -http=localhost:8090 pprof/$(latest)
+
 .PHONY: access-db
 access-db:
 	sudo mysql -h $(ISUCONP_DB_HOST) -u $(ISUCONP_DB_USER) -p$(ISUCONP_DB_PASSWORD) $(ISUCONP_DB_NAME)
