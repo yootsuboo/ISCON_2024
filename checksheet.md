@@ -1,6 +1,6 @@
 ## チェックリスト
 
-### 初期状態のバックアップ取得
+### ログインとベンチマーク実行
 ##### Makefileで実行
 - [ ] ubuntuユーザーでログイン
 - [ ] Makefileの取得
@@ -12,17 +12,20 @@ curl https://raw.githubusercontent.com/yootsuboo/ISCON_2024/main/Makefile -o Mak
 make add-keys
 ```
 - [ ] isuconユーザーでログインしMakefileの取得
-- [ ] ~/env ファイルのパラメータ確認 (変数名等の確認)
-- [ ] backupの実行
 ```
-make backup
+curl https://raw.githubusercontent.com/yootsuboo/ISCON_2024/main/Makefile -o Makefile
 ```
-- [ ] setupの実行
+- [ ] 使用言語の切り替え
+- [ ] ベンチマークを数回実行(点数の振れ幅を確認)
 ```
-make setup
+make exec-bench
 ```
 
-##### git管理
+#### git管理
+- [ ] git初期設定と鍵ファイル作成
+```
+git-setups
+```
 - [ ] `make setup`で作成したデプロイキーをGithubの`プライベート`リポジトリに登録
 プライベートリポジトリのSettings -> Deploy Keysに登録
 ```
@@ -66,12 +69,64 @@ git commit -m "initial commit"
 git push origin main
 ```
 
-##### 初回ベンチマークと諸々の構成確認
-- [ ] 使用言語の変更
-- [ ] ベンチマークを数回実行(点数の振れ幅を確認)
+#### バックアップとインストール
+- [ ] ~/env.sh ファイルのパラメータ確認 (変数名等の確認)
+- [ ] backupの実行
 ```
-make exec-bench
+make backup
 ```
+- [ ] setupの実行
+```
+make setup
+```
+- [ ] nginxアクセスログフォーマット変更
+```
+vim s1/etc/nginx/nginx.conf
+```
+```
+        log_format ltsv "time:$time_local"
+                        "\thost:$remote_addr"
+                        "\tforwardedfor:$http_x_forwarded_for"
+                        "\treq:$request"
+                        "\tstatus:$status"
+                        "\tmethod:$request_method"
+                        "\turi:$request_uri"
+                        "\tsize:$body_bytes_sent"
+                        "\treferer:$http_referer"
+                        "\tua:$http_user_agent"
+                        "\treqtime:$request_time"
+                        "\tcache:$upstream_http_x_cache"
+                        "\truntime:$upstream_http_x_runtime"
+                        "\tapptime:$upstream_response_time"
+                        "\tvhost:$host";
+
+        access_log /var/log/nginx/access.log ltsv;
+```
+- [ ] スロークエリログ有効化
+```
+vim s1/etc/mysql/mysql.conf.d/mysqld.cnf
+```
+```
+slow_query_log = 1
+slow_query_log_file = /var/log/mysql/mysql-slow.log
+long_query_time = 0
+```
+```
+make deploy-conf
+```
+```
+make restart
+```
+- [ ] check-ansibleの実行
+```
+make dryrun
+```
+- [ ] checkの結果`filed`がなければ、exec-ansibleの実行
+```
+make exec
+```
+
+#### マニュアルと構成確認
 - [ ] マニュアルの確認
 - [ ] 実行中のserviceの確認
 ```
@@ -94,47 +149,6 @@ SHOW FULL COMUMNS FROM <table-name>;
 ```
 webapp/go/main.go
 ```
-
-
-##### Ansibleを実行し初回設定変更
-- [ ] check-ansibleの実行
-```
-make dryrun
-```
-- [ ] checkの結果`filed`がなければ、exec-ansibleの実行
-```
-make exec
-```
-- [ ] nginxアクセスログフォーマット変更
-```
-sudo vim s1/etc/nginx/nginx.conf
-```
-```
-        log_format ltsv "time:$time_local"
-                        "\thost:$remote_addr"
-                        "\tforwardedfor:$http_x_forwarded_for"
-                        "\treq:$request"
-                        "\tstatus:$status"
-                        "\tmethod:$request_method"
-                        "\turi:$request_uri"
-                        "\tsize:$body_bytes_sent"
-                        "\treferer:$http_referer"
-                        "\tua:$http_user_agent"
-                        "\treqtime:$request_time"
-                        "\tcache:$upstream_http_x_cache"
-                        "\truntime:$upstream_http_x_runtime"
-                        "\tapptime:$upstream_response_time"
-                        "\tvhost:$host";
-
-        access_log /var/log/nginx/access.log ltsv;
-```
-```
-make deploy-conf
-```
-```
-make restart
-```
-
 
 #### 計測ツール関係
 ##### top または htop

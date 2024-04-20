@@ -92,26 +92,26 @@
       ansible.builtin.debug:
         var: execution_result
 
-    - name: スロークエリログ有効化
-      become: yes
-      become_user: root
-      ansible.builtin.blockinfile:
-        path: /etc/mysql/mysql.conf.d/mysqld.cnf
-        block: |-
-          slow_query_log = 1
-          slow_query_log_file = /var/log/mysql/mysql-slow.log
-          long_query_time = 0
-        insertafter: EOF
-        state: present
+    # - name: スロークエリログ有効化
+    #   become: yes
+    #   become_user: root
+    #   ansible.builtin.blockinfile:
+    #     path: /etc/mysql/mysql.conf.d/mysqld.cnf
+    #     block: |-
+    #       slow_query_log = 1
+    #       slow_query_log_file = /var/log/mysql/mysql-slow.log
+    #       long_query_time = 0
+    #     insertafter: EOF
+    #     state: present
 
-    - name: mysql の再起動
-      ansible.builtin.shell:
-        cmd: sudo systemctl restart mysql
-      register: execution_result
+    # - name: mysql の再起動
+    #   ansible.builtin.shell:
+    #     cmd: sudo systemctl restart mysql
+    #   register: execution_result
 
-    - name: コマンド実行結果の確認
-      ansible.builtin.debug:
-        var: execution_result
+    # - name: コマンド実行結果の確認
+    #   ansible.builtin.debug:
+    #     var: execution_result
 
 
     # - name: nginxアクセスログフォーマット修正

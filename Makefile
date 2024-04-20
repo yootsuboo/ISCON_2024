@@ -4,7 +4,7 @@ include /home/isucon/env.sh
 # 問題により変更になる定義
 USER:=isucon
 BIN_NAME:=app
-BUILD_DIR:=/home/isucon/private_isu/golang
+BUILD_DIR:=/home/isucon/private_isu/webapp/golang
 SERVICE_NAME:=isu-go.service
 
 DB_PATH:=/etc/mysql
@@ -24,7 +24,10 @@ backup: backup-setup backup-etc backup-home backup-usr dump-mysql
 
 # ツールインストール, gitまわりのセットアップ
 .PHONY: setup
-setup: install-tools git-setup
+setup: install-tools
+
+.PHONY: git-setups
+git-setups: git-setup
 
 .PHONY: add-keys
 add-keys:
