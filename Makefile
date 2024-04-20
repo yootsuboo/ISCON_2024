@@ -3,9 +3,9 @@ include /home/isucon/env.sh
 
 # 問題により変更になる定義
 USER:=isucon
-BIN_NAME:=isu
-BUILD_DIR:=/home/isucon/private_isu/go
-SERVICE_NAME:=$(BIN_NAME)-go.service
+BIN_NAME:=app
+BUILD_DIR:=/home/isucon/private_isu/golang
+SERVICE_NAME:=isu-go.service
 
 DB_PATH:=/etc/mysql
 NGINX_PATH:=/etc/nginx
@@ -191,7 +191,7 @@ deploy-envsh:
 
 .PHONY: build
 build:
-	cd $(GUILD_DIR); \
+	cd $(BUILD_DIR); \
 		go build -o $(BIN_NAME)
 
 .PHONY: restart

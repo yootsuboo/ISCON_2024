@@ -39,7 +39,7 @@ homeディレクトリで実施
 git init
 ```
 ```
-git remote add origin <privateリポのSSH URL>
+git remote add origin git@github.com:yootsuboo/isucon_private.git
 ```
 ```
 git pull origin main
@@ -67,6 +67,7 @@ git push origin main
 ```
 
 ##### 初回ベンチマークと諸々の構成確認
+- [ ] 使用言語の変更
 - [ ] ベンチマークを数回実行(点数の振れ幅を確認)
 ```
 make exec-bench
@@ -78,7 +79,16 @@ sudo systemctl list-units --type=service
 ```
 - [ ] DBのテーブル構成を確認
 ```
-webapp/sql/0_Schema.sql
+make access-db
+```
+```title: mysql>
+SELECT * FROM INFORMATION_SCHEMA.SCHEMATA;
+```
+```title: mysql>
+SHOW TABLES;
+```
+```title: mysql>
+SHOW FULL COMUMNS FROM <table-name>;
 ```
 - [ ] ソースコードの確認
 ```
@@ -89,7 +99,7 @@ webapp/go/main.go
 ##### Ansibleを実行し初回設定変更
 - [ ] check-ansibleの実行
 ```
-make check
+make dryrun
 ```
 - [ ] checkの結果`filed`がなければ、exec-ansibleの実行
 ```
@@ -97,7 +107,7 @@ make exec
 ```
 - [ ] nginxアクセスログフォーマット変更
 ```
-vim /etc/nginx/nginx.conf
+sudo vim s1/etc/nginx/nginx.conf
 ```
 ```
         log_format ltsv "time:$time_local"
@@ -122,7 +132,7 @@ vim /etc/nginx/nginx.conf
 make deploy-conf
 ```
 ```
-sudo systemctl restart nginx
+make restart
 ```
 
 
